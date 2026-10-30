@@ -5,15 +5,16 @@
     address: { text: '그, 그런 건 개인 정보니까…\n개인적으로 물어봐줘.\n너한테는… 알려줄게.', mood: '장소는… 우리끼리만 비밀 ♡', image: 'assets/images/byeonggyu-photo-shy.png', alt: '수줍게 가슴 앞에 두 손을 모은 병규' },
     schedule: { text: '10월 31일 저녁 7시부터… 11월 2일 아침 8시까지야.\n무려 0박 3일…!\n함께 있어줄 거지…?', mood: '10.31 SAT 19:00 — 11.02 MON 08:00', image: 'assets/images/byeonggyu-photo-schedule.png', alt: '손가락을 들어 집들이 시간을 설명하는 병규' },
     food: { text: '치킨이지…! 같이 먹으려고 준비했어.\n이, 이 앞치마는… 너 온다고 해서…!\n식기 전에 같이 먹자. ♡', mood: '오늘의 메뉴는 치킨, 그리고 수다 ♡', image: 'assets/images/byeonggyu-photo-food.png', alt: '프릴이 풍성한 분홍색 앞치마를 입고 치킨 접시를 든 병규' },
-    bad: { text: '…안 온다고?\n치킨도… 네 몫까지 생각해뒀는데.\n됐어. 나 혼자 다 먹을 거야.', mood: '초대는… 여기까지.', image: 'assets/images/byeonggyu-photo-bad.png', alt: '어두운 거실에서 팔짱을 낀 흑화 병규' },
+    bad: { text: '…정말 안 오는 거야?\n\n아까는 네가 온다고 상상하면서\n접시도 두 개 꺼내놨는데.\n\n괜찮아, 바쁜 거 알아.\n그러니까 미안하다고는 하지 마.\n네가 미안해하면… 내가 더 기다리게 되잖아.\n\n문 앞에 발소리가 날 때마다\n혹시 너일까 봐 숨을 죽였어.\n하지만 복도는 조용했고,\n식어버린 치킨만 우리 사이에 남았어.\n\n초대장을 다시 읽어봐도\n네 대답은 달라지지 않겠지.\n오늘은 여기까지 할게.\n잘 가, 그리고… 다음엔 기대하지 않을게.', mood: '초대는… 여기까지.', image: 'assets/images/byeonggyu-photo-bad.png', alt: '어두운 거실에서 팔짱을 낀 병규' },
     happy: { text: '진짜…? 와주는 거지?\n그럼 네 자리, 꼭 비워둘게.\n우리 집에서 만나. 기다리고 있을게…! ♡', mood: '네가 온다니, 이제 진짜 집들이야 ♡', image: 'assets/images/byeonggyu-photo-happy.png', alt: '두 팔을 펼쳐 기쁘게 반기는 병규' }
   };
   const endings = {
-    bad: { label: 'BAD ENDING', heading: '오지 않는 너를 기다리며', note: '핑크빛 집들이는 그렇게 빛을 잃었다.' },
+    bad: { label: 'BAD ENDING', heading: '네가 오지 않은 밤', note: '기다리던 마음이 조금 식어버렸다.' },
     happy: { label: 'HAPPY ENDING', heading: '너와 함께라서, 우리 집', note: '집은 준비됐고, 이제 우리가 만날 차례.' }
   };
   const game = document.querySelector('.game');
   const portrait = document.querySelector('.portrait');
+  const portraitIncoming = document.querySelector('.portrait-incoming');
   const text = document.querySelector('#dialogue-text');
   const announcement = document.querySelector('#announcement');
   const choices = document.querySelector('#choices');
@@ -24,6 +25,9 @@
   const mark = document.querySelector('#continue-mark');
   const mood = document.querySelector('#mood');
   const letterDialog = document.querySelector('#letter-dialog');
+  const letterArrival = document.querySelector('#letter-arrival');
+  const arrivalLetter = document.querySelector('#arrival-letter');
+  const letterPaper = document.querySelector('.letter-paper');
   const letterContent = document.querySelector('#letter-content');
   const letterEnter = document.querySelector('#letter-enter');
   const letterReopen = document.querySelector('#letter-reopen');
@@ -33,16 +37,27 @@
   const scrollHint = document.querySelector('#letter-scroll-hint');
   const endingTitle = document.querySelector('#ending-title');
   const endingActions = document.querySelector('#ending-actions');
+  const epilogueScreen = document.querySelector('#epilogue-screen');
+  const epilogueLine = document.querySelector('#epilogue-line');
+  const epilogueChoice = document.querySelector('#epilogue-choice');
+  const epilogueCredits = document.querySelector('#epilogue-credits');
+  const epilogueRestart = document.querySelector('#epilogue-restart');
+  const epilogueCreditsButton = document.querySelector('#epilogue-credits-button');
+  const creditsRestart = document.querySelector('#credits-restart');
   const endingLabel = document.querySelector('#ending-label');
   const endingHeading = document.querySelector('#ending-heading');
   const endingNote = document.querySelector('#ending-note');
   const accept = document.querySelector('#accept-choice');
+  const questionGuide = document.querySelector('#question-guide');
   const restart = document.querySelector('#restart-choice');
   const pageDecline = document.querySelector('#page-decline');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let timer = null;
+  let dialogueTransitionTimer = null;
+  let onTextComplete = null;
   let fullText = scenes.welcome.text;
   let activeChoice = null;
+  const visitedQuestions = new Set();
   let currentScene = 'welcome';
   let photoAnimation = null;
   const photos = new Map();
@@ -62,32 +77,58 @@
     photos.get(scene.image).then(loaded => {
       // An older load must not overwrite the visitor's latest selection.
       if (!loaded || currentScene !== name) return;
+      if (photoAnimation) clearTimeout(photoAnimation);
+      photoAnimation = null;
       const changed = portrait.getAttribute('src') !== scene.image;
-      portrait.src = scene.image;
-      portrait.alt = scene.alt;
       game.style.setProperty('--scene-image', `url("${scene.image}")`);
-      if (photoAnimation) photoAnimation.cancel();
-      if (changed && !reducedMotion.matches && typeof portrait.animate === 'function') {
-        photoAnimation = portrait.animate([{ opacity: .65 }, { opacity: 1 }], { duration: 300, easing: 'ease-out' });
+      if (!changed) {
+        portraitIncoming.classList.remove('is-visible');
+        return;
       }
+      if (reducedMotion.matches) {
+        portrait.src = scene.image;
+        portrait.alt = scene.alt;
+        portraitIncoming.classList.remove('is-visible');
+        return;
+      }
+      portraitIncoming.classList.remove('is-visible');
+      portraitIncoming.src = scene.image;
+      requestAnimationFrame(() => portraitIncoming.classList.add('is-visible'));
+      photoAnimation = setTimeout(() => {
+        if (currentScene !== name) return;
+        portrait.src = scene.image;
+        portrait.alt = scene.alt;
+        portraitIncoming.classList.remove('is-visible');
+        photoAnimation = null;
+      }, 1050);
     });
   }
 
   function finishText() {
     clearInterval(timer);
+    clearTimeout(dialogueTransitionTimer);
+    dialogueTransitionTimer = null;
     timer = null;
     text.textContent = fullText;
+    text.classList.remove('dialogue-switching');
     skip.hidden = true;
     mark.hidden = Boolean(endings[currentScene]);
     hint.textContent = endings[currentScene] ? `이 이야기는 여기서 끝났습니다 · ${endings[currentScene].label}` : currentScene === 'welcome' ? '선택지를 눌러 이야기를 이어가세요' : '아직 궁금한 게 남았어?';
     if (document.activeElement === skip) {
-      (endings[currentScene] ? restart : currentScene === 'welcome' ? choices.querySelector('button') : back).focus({ preventScroll: true });
+      if (currentScene === 'happy' && onTextComplete) skip.blur();
+      else (endings[currentScene] ? restart : currentScene === 'welcome' ? choices.querySelector('button') : back).focus({ preventScroll: true });
     }
+    const complete = onTextComplete;
+    onTextComplete = null;
+    if (complete) complete();
   }
 
-  function showScene(name, animate = true) {
+  function showScene(name, animate = true, revealEnding = true) {
     if (!Object.hasOwn(scenes, name)) return;
     clearInterval(timer);
+    clearTimeout(dialogueTransitionTimer);
+    dialogueTransitionTimer = null;
+    onTextComplete = null;
     currentScene = name;
     showPhoto(name);
     fullText = scenes[name].text;
@@ -97,10 +138,10 @@
     choices.hidden = name !== 'welcome';
     const ending = endings[name];
     replyActions.hidden = name === 'welcome' || Boolean(ending);
-    endingTitle.hidden = !ending;
-    endingActions.hidden = !ending;
-    pageDecline.hidden = Boolean(ending);
-    letterReopen.hidden = Boolean(ending);
+    endingTitle.hidden = !ending || !revealEnding;
+    endingActions.hidden = !ending || !revealEnding;
+    pageDecline.hidden = Boolean(ending) || name === 'happy';
+    letterReopen.hidden = Boolean(ending) || name === 'happy';
     if (ending) {
       endingLabel.textContent = ending.label;
       endingHeading.textContent = ending.heading;
@@ -112,23 +153,91 @@
       finishText();
       return;
     }
-    const characters = Array.from(fullText);
-    let position = 0;
+    const typingSpeed = name === 'bad' ? 58 : 32;
+    typeDialogue(fullText, typingSpeed);
+  }
+
+  function typeDialogue(line, speed, onComplete) {
+    clearInterval(timer);
+    clearTimeout(dialogueTransitionTimer);
+    fullText = line;
+    onTextComplete = onComplete;
+    announcement.textContent = `병규: ${line}`;
     text.textContent = '';
-    skip.hidden = false;
+    skip.hidden = reducedMotion.matches;
     mark.hidden = true;
-    hint.textContent = '병규가 이야기하는 중…';
-    timer = setInterval(() => {
-      position += 1;
-      text.textContent = characters.slice(0, position).join('');
-      if (position >= characters.length) finishText();
-    }, 32);
+    hint.textContent = '병규가 마음을 전하는 중…';
+    if (reducedMotion.matches) {
+      text.textContent = fullText;
+      finishText();
+      return;
+    }
+    text.classList.add('dialogue-switching');
+    dialogueTransitionTimer = setTimeout(() => {
+      dialogueTransitionTimer = null;
+      text.textContent = '';
+      text.classList.remove('dialogue-switching');
+      const characters = Array.from(fullText);
+      let position = 0;
+      timer = setInterval(() => {
+        position += 1;
+        text.textContent = characters.slice(0, position).join('');
+        if (position >= characters.length) finishText();
+      }, speed);
+    }, 260);
+  }
+
+  function beginHappyEnding() {
+    pendingEnding = null;
+    started = true;
+    pauseLetterScroll();
+    game.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'center' });
+    showScene('happy', false, false);
+    game.classList.add('happy-anticipation');
+    epilogueScreen.hidden = true;
+    epilogueScreen.classList.remove('is-visible');
+    epilogueChoice.hidden = true;
+    epilogueChoice.classList.remove('is-visible');
+    epilogueCredits.hidden = true;
+    epilogueCredits.classList.remove('is-visible');
+    typeDialogue('진짜 와주는 거야…? 잠깐만… 나 지금 너무 설레서 숨을 크게 한 번 쉬고 올게.', 82, () => {
+      game.classList.remove('happy-anticipation');
+      typeDialogue('왔어! 이제 진짜 집들이네. 네 자리는 제일 좋은 곳에 비워뒀어. 치킨도 제일 바삭한 걸로 남겨둘게!', 38, () => {
+        typeDialogue('우리 오래오래 웃고 떠들자. 오늘을 생각하면 언제든 마음이 따뜻해질 수 있게… ♡', 54, () => {
+          setTimeout(revealEpilogue, reducedMotion.matches ? 0 : 1200);
+        });
+      });
+    });
+  }
+
+  function revealEpilogue() {
+    game.classList.add('epilogue-fading');
+    setTimeout(() => {
+      epilogueScreen.hidden = false;
+      requestAnimationFrame(() => epilogueScreen.classList.add('is-visible'));
+      setTimeout(() => {
+        epilogueLine.classList.add('is-visible');
+        setTimeout(() => {
+          epilogueChoice.hidden = false;
+          requestAnimationFrame(() => {
+            epilogueChoice.classList.add('is-visible');
+            epilogueRestart.focus({ preventScroll: true });
+          });
+      }, reducedMotion.matches ? 0 : 1750);
+    }, reducedMotion.matches ? 0 : 400);
+    }, reducedMotion.matches ? 0 : 650);
   }
 
   choices.querySelectorAll('[data-choice]').forEach(button => {
     button.addEventListener('click', () => {
       activeChoice = button;
       button.classList.add('seen');
+      visitedQuestions.add(button.dataset.choice);
+      if (visitedQuestions.size === choices.querySelectorAll('[data-choice]').length) {
+        accept.hidden = false;
+        questionGuide.textContent = '이제 병규에게 마음을 전해도 좋아요.';
+        questionGuide.classList.add('questions-complete');
+      }
       showScene(button.dataset.choice);
       back.focus({ preventScroll: true });
     });
@@ -219,7 +328,10 @@
   function openLetter() {
     returnFocus = document.activeElement;
     if (timer) finishText();
-    letterDialog.showModal();
+    letterArrival.hidden = true;
+    letterPaper.hidden = false;
+    letterDialog.classList.remove('arrival-only');
+    if (!letterDialog.open) letterDialog.showModal();
     document.body.classList.add('letter-open');
     letterDialog.scrollTop = 0;
     letterReading.scrollTop = 0;
@@ -227,8 +339,20 @@
     if (reducedMotion.matches) {
       pauseLetterScroll('직접 스크롤하며 읽어주세요');
       updateScrollControls();
-    } else startLetterScroll(3000);
+    } else startLetterScroll(1000);
   }
+  function openArrival() {
+    returnFocus = document.activeElement;
+    if (timer) finishText();
+    pauseLetterScroll();
+    letterArrival.hidden = false;
+    letterPaper.hidden = true;
+    letterDialog.classList.add('arrival-only');
+    letterDialog.showModal();
+    document.body.classList.add('letter-open');
+    arrivalLetter.focus({ preventScroll: true });
+  }
+  arrivalLetter.addEventListener('click', openLetter);
   letterEnter.addEventListener('click', () => letterDialog.close());
   function showEnding(name) {
     pendingEnding = null;
@@ -246,13 +370,40 @@
       } else showEnding('bad');
     });
   });
-  accept.addEventListener('click', () => showEnding('happy'));
+  accept.addEventListener('click', beginHappyEnding);
+  epilogueRestart.addEventListener('click', () => restart.click());
+  creditsRestart.addEventListener('click', () => restart.click());
+  epilogueCreditsButton.addEventListener('click', () => {
+    epilogueChoice.classList.remove('is-visible');
+    setTimeout(() => {
+      epilogueChoice.hidden = true;
+      epilogueCredits.hidden = false;
+      requestAnimationFrame(() => {
+        epilogueCredits.classList.add('is-visible');
+        creditsRestart.focus({ preventScroll: true });
+      });
+    }, reducedMotion.matches ? 0 : 450);
+  });
   restart.addEventListener('click', () => {
     started = false;
     activeChoice = null;
+    visitedQuestions.clear();
+    accept.hidden = true;
+    questionGuide.textContent = '세 가지 질문을 모두 살펴보면 초대에 답할 수 있어요.';
+    questionGuide.classList.remove('questions-complete');
+    game.classList.remove('happy-anticipation');
+    game.classList.remove('epilogue-fading');
+    epilogueScreen.hidden = true;
+    epilogueScreen.classList.remove('is-visible');
+    epilogueLine.classList.remove('is-visible');
+    epilogueChoice.hidden = true;
+    epilogueChoice.classList.remove('is-visible');
+    epilogueCredits.hidden = true;
+    epilogueCredits.classList.remove('is-visible');
+    restart.textContent = '↶ 처음부터 다시 시작';
     choices.querySelectorAll('[data-choice]').forEach(button => button.classList.remove('seen'));
     showScene('welcome', false);
-    openLetter();
+    openArrival();
   });
   letterDialog.addEventListener('close', () => {
     pauseLetterScroll();
@@ -270,5 +421,5 @@
     }
   });
   letterReopen.addEventListener('click', openLetter);
-  openLetter();
+  openArrival();
 })();

@@ -21,6 +21,11 @@
   </header>
 
   <dialog class="letter-dialog" id="letter-dialog" aria-labelledby="letter-title">
+    <section class="letter-arrival" id="letter-arrival" aria-label="병규의 초대장" hidden>
+      <button class="arrival-letter" id="arrival-letter" type="button" aria-label="병규의 초대장 열어보기">
+        <img class="arrival-envelope-image" src="assets/images/byeonggyu-love-letter.png" alt="" aria-hidden="true">
+      </button>
+    </section>
     <div class="letter-paper">
       <p class="letter-eyebrow">A LETTER FOR YOU</p>
       <span class="letter-seal" aria-hidden="true">♡</span>
@@ -45,12 +50,22 @@
       <p class="intro-copy">집은 준비됐고, 이제 네가 올 차례.</p>
     </div>
 
+    <div class="game-frame">
+    <div class="romance-frame" aria-hidden="true">
+      <span class="frame-ornament frame-top-left">🌹<i>✧</i></span>
+      <span class="frame-ornament frame-top-right">🌹<i>✧</i></span>
+      <span class="frame-ornament frame-bottom-left">🌹<i>✧</i></span>
+      <span class="frame-ornament frame-bottom-right">🌹<i>✧</i></span>
+      <span class="frame-vine frame-vine-left">❧　♡　❧</span>
+      <span class="frame-vine frame-vine-right">❧　♡　❧</span>
+      <span class="frame-sparkle sparkle-one">✧</span><span class="frame-sparkle sparkle-two">✦</span><span class="frame-sparkle sparkle-three">✧</span>
+    </div>
     <section class="game" aria-label="병규와 집들이 이야기 나누기" data-scene="welcome">
       <div class="scene-backdrop" aria-hidden="true"></div>
       <img class="portrait" src="assets/images/byeonggyu-photo-welcome.png"
         alt="아늑한 거실에서 핑크색 파자마를 입고 웃고 있는 병규" fetchpriority="high">
+      <img class="portrait portrait-incoming" alt="" aria-hidden="true">
       <div class="scene-shade" aria-hidden="true"></div>
-
       <div class="scene-topline">
         <span class="chapter"><span class="chapter-dot"></span> 첫 번째 장면 <span class="chapter-divider">/</span> 병규의 집</span>
         <span class="scene-mood" id="mood">두근두근, 집들이 전날</span>
@@ -81,6 +96,26 @@
       </div>
       <div class="ending-actions" id="ending-actions" hidden><button class="restart-choice" id="restart-choice" type="button">↶ 처음부터 다시 시작</button></div>
 
+      <div class="epilogue-screen" id="epilogue-screen" hidden aria-live="polite">
+        <div class="epilogue-content">
+          <p class="epilogue-eyebrow">HAPPY ENDING</p>
+          <p class="epilogue-line" id="epilogue-line"><span>그리고 그날의 웃음은 오래도록 반짝였다…</span><strong>병규는 우리의 영원한 스윗반장이 되었다…</strong></p>
+          <section class="epilogue-choice" id="epilogue-choice" hidden>
+            <h2>다시 시작하겠습니까?</h2>
+            <div class="epilogue-buttons">
+              <button class="epilogue-restart" id="epilogue-restart" type="button">예, 다시 시작할래요</button>
+              <button class="epilogue-credits-button" id="epilogue-credits-button" type="button">이 여운을 간직하기</button>
+            </div>
+          </section>
+          <section class="epilogue-credits" id="epilogue-credits" hidden aria-label="제작 크레딧">
+            <p class="epilogue-credit-heading">함께 만든 사람들</p>
+            <p>검토 및 제작: <strong>쌍희</strong></p>
+            <p>검토: <strong>효경 앤 산</strong></p>
+            <button class="epilogue-restart" id="credits-restart" type="button">처음부터 다시 시작</button>
+          </section>
+        </div>
+      </div>
+
       <div class="dialogue-wrap">
         <div class="speaker"><span class="speaker-heart" aria-hidden="true">♥</span> 병규 <span class="speaker-role">오늘의 집주인</span></div>
         <div class="dialogue">
@@ -93,10 +128,12 @@
         </div>
       </div>
     </section>
+    </div>
 
     <div class="page-decline" id="page-decline">
-      <button class="accept-choice" id="accept-choice" type="button">좋아, 집들이 갈게! <span aria-hidden="true">♡</span></button>
       <button class="decline-choice" type="button" data-decline>나는 그냥 집들이 안 갈래</button>
+      <p class="question-guide" id="question-guide">세 가지 질문을 모두 살펴보면 초대에 답할 수 있어요.</p>
+      <button class="accept-choice" id="accept-choice" type="button" hidden>좋아, 집들이 갈게! <span aria-hidden="true">♡</span></button>
     </div>
 
     <footer class="page-footer"><span>좋은 사람들과, 조금 긴 집들이.</span><span class="footer-signature">with love, 병규 <span aria-hidden="true">♡</span></span></footer>

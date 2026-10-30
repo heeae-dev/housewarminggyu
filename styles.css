@@ -68,3 +68,197 @@
 .letter-surprise{background:#f5efeb;border-left:3px solid #c38b9e;padding:22px;border-radius:0 8px 8px 0}.letter-formatted .letter-surprise p{font-size:16px;margin:0;line-height:1.95}
 .letter-message{border:1px solid #dbacbe;border-radius:12px;background:#fff2f5;text-align:center;padding:25px 18px;margin:22px 0}.letter-formatted .letter-message p{margin:0 0 12px}.letter-formatted .letter-message p:last-child{margin:0}.letter-formatted .letter-closing{text-align:right;color:#8b5269;font-size:16px;margin-top:32px}
 @media(max-width:760px){.letter-formatted h3{font-size:15px}.letter-formatted .letter-invited{font-size:14px}.letter-formatted .letter-ornament{font-size:14px}.letter-cat{font-size:16px;padding:16px}.letter-info{padding:18px 14px}.letter-info dl>div{grid-template-columns:1fr;gap:3px;font-size:14px}.letter-checklist li{font-size:15px}.letter-surprise{padding:18px 14px}.letter-formatted .letter-surprise p{font-size:15px}.letter-divider{font-size:12px;margin:26px 0}.letter-formatted .letter-exclamation{font-size:17px}}
+
+/* The bad ending arrives quietly, then leaves the rejection hanging in the room. */
+.game[data-scene="bad"] .dialogue{animation:bad-dialogue-arrive 1.4s ease-out both}
+.game[data-scene="bad"] .ending-title{animation:bad-title-arrive 1.8s .45s ease-out both}
+.game[data-scene="bad"] .scene-mood{color:#e3c1d2;letter-spacing:1px}
+@keyframes bad-dialogue-arrive{from{opacity:0}to{opacity:1}}
+@keyframes bad-title-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.game[data-scene="bad"] .dialogue,.game[data-scene="bad"] .ending-title{animation:none}}
+
+
+/* Keep the invitation choice quiet until all three conversation branches are explored. */
+.page-decline{flex-direction:column;align-items:center;gap:5px;padding-top:18px}
+.page-decline .decline-choice{order:1;flex:none;min-width:0;width:auto;max-width:none;min-height:0;padding:6px 12px;border:0;background:transparent;color:#947d84;font-size:12px;font-weight:400;text-decoration:underline;text-underline-offset:3px}
+.question-guide{order:0;margin:0 0 3px;color:#9b858c;font-size:11px;line-height:1.6;text-align:center}
+.accept-choice{order:2;flex:none;min-width:0;max-width:none;min-height:0;padding:8px 17px;border:1px solid #d7b4c0;border-radius:24px;background:#fff8f5;color:#895b6d;font-size:13px;font-weight:500;line-height:1.4;animation:invitation-answer 1s ease both}
+.accept-choice:hover{background:#f9eaf0;border-color:#bf8a9e}
+.question-guide.questions-complete{color:#906675}
+.ending-actions{gap:8px;align-items:center;justify-content:center}
+.ending-stay-choice{border:1px solid #edccd7;border-radius:4px;background:#fff9f2ed;color:#94687b;padding:12px 17px;font-size:12px}
+.ending-stay-choice:hover{background:#ffeaf0}
+.game[data-scene="happy"] .portrait{transition:filter 1.2s ease,opacity 1.2s ease}
+.game[data-scene="happy"].happy-anticipation .portrait{filter:brightness(.9) blur(1.5px) saturate(.82)}
+.game[data-scene="happy"].happy-anticipation{box-shadow:0 14px 60px #d58eaa40,0 0 0 1px #f2d1dc;transition:box-shadow 1.2s ease}
+@keyframes invitation-answer{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.page-decline{gap:5px}.page-decline .decline-choice{font-size:11px;padding:5px 10px}.question-guide{font-size:10px}.accept-choice{font-size:12px;padding:8px 15px}.ending-actions{left:15px;right:15px;bottom:234px;flex-wrap:wrap}.ending-stay-choice{padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){.accept-choice{animation:none}.game[data-scene="happy"] .portrait,.game[data-scene="happy"].happy-anticipation{transition:none}}
+.ending-actions{display:flex}
+
+.game.epilogue-fading>:not(.epilogue-screen){opacity:0!important;pointer-events:none;transition:opacity 1.6s ease}
+.epilogue-screen{position:absolute;inset:0;z-index:10;display:grid;place-items:center;padding:32px;background:radial-gradient(ellipse at 50% 38%,#705568 0,#4b3b4d 48%,#332b3b 100%);color:#fbf0e9;text-align:center;opacity:0;transition:opacity 2.2s ease}
+.epilogue-screen.is-visible{opacity:1}
+.epilogue-content{width:min(680px,100%);margin:auto}
+.epilogue-eyebrow{margin:0 0 30px;color:#e9c5d1;font-size:10px;letter-spacing:4px}
+.epilogue-line{margin:0 auto;max-width:620px;color:#fff6ec;font-family:Georgia,"Batang","AppleMyungjo",serif;font-size:clamp(23px,4vw,38px);font-weight:400;line-height:1.8;letter-spacing:.02em;opacity:0;transform:translateY(8px);transition:opacity 3.6s ease,transform 3.6s ease}
+.epilogue-line.is-visible{opacity:1;transform:translateY(0)}
+.epilogue-choice{margin-top:50px;opacity:0;transition:opacity 1.8s ease}
+.epilogue-choice.is-visible{opacity:1}
+.epilogue-choice h2{margin:0 0 17px;color:#f7e6e9;font-size:15px;font-weight:400;letter-spacing:1.5px}
+.epilogue-buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.epilogue-restart,.epilogue-credits-button{min-height:42px;padding:10px 17px;border:1px solid #e4bdcb;border-radius:24px;background:#fff7f1;color:#775365;font-size:12px;transition:background .2s,transform .2s}
+.epilogue-credits-button{background:transparent;color:#f0dfe5;border-color:#bda5b7}
+.epilogue-restart:hover,.epilogue-credits-button:hover{background:#f6dfe8;transform:translateY(-1px);color:#684452}
+.epilogue-credits{margin-top:42px;opacity:0;transition:opacity 2s ease}
+.epilogue-credits.is-visible{opacity:1}
+.epilogue-credits p{margin:0 0 14px;color:#efdae1;font-size:14px;letter-spacing:1px;line-height:1.8}
+.epilogue-credits strong{display:inline-block;margin-left:4px;color:#fff7ed;font-weight:600;letter-spacing:1.4px}
+.epilogue-credits .epilogue-restart{margin-top:23px}
+@media(max-width:760px){.epilogue-screen{padding:24px}.epilogue-eyebrow{margin-bottom:23px}.epilogue-line{font-size:clamp(21px,6vw,30px);line-height:1.85}.epilogue-choice{margin-top:38px}.epilogue-buttons{flex-direction:column;align-items:center}.epilogue-buttons button{width:min(270px,100%)}.epilogue-credits{margin-top:32px}}
+@media(prefers-reduced-motion:reduce){.game.epilogue-fading>:not(.epilogue-screen),.epilogue-screen,.epilogue-line,.epilogue-choice,.epilogue-credits{transition:none}.epilogue-line{opacity:1;transform:none}}
+.epilogue-credits .epilogue-credit-heading{margin-bottom:25px;color:#e9c5d1;font-size:10px;letter-spacing:3px}
+
+/* Blend character poses instead of swapping them abruptly. */
+.portrait-incoming{z-index:-2;opacity:0;pointer-events:none;transition:opacity 1.05s cubic-bezier(.22,.68,.2,1)}
+.portrait-incoming.is-visible{opacity:1}
+.dialogue-text{transition:opacity .26s ease,transform .26s ease}
+.dialogue-text.dialogue-switching{opacity:0;transform:translateY(4px)}
+.shy-decoration span{animation:heart-drift 4.2s ease-in-out infinite;text-shadow:0 0 12px #ed9ebd,0 0 26px #df86ab;filter:drop-shadow(0 3px 8px #9e5b7655)}
+.shy-decoration span:nth-child(1){animation-delay:-.5s}
+.shy-decoration span:nth-child(2){animation-delay:-2.1s}
+.shy-decoration span:nth-child(3){animation-delay:-3.2s}
+.game[data-scene="happy"] .shy-decoration span{color:#ffe0eb;text-shadow:0 0 15px #ffc5dc,0 0 34px #ee9fc1;filter:drop-shadow(0 4px 10px #af658455)}
+.game[data-scene="happy"] .shy-decoration span:nth-child(1){font-size:38px}
+.game[data-scene="happy"] .shy-decoration span:nth-child(2){font-size:30px}
+.game[data-scene="happy"] .shy-decoration span:nth-child(3){font-size:34px}
+@keyframes heart-drift{0%,100%{opacity:.62;translate:0 5px;scale:.92}50%{opacity:1;translate:0 -13px;scale:1.08}}
+.accept-choice{border-color:#d2a4b4;box-shadow:0 3px 16px #c37f9822;animation:invitation-answer 1s ease both,invitation-heartbeat 3s 1s ease-in-out infinite}
+.accept-choice span{display:inline-block;color:#ba718f;font-size:16px;text-shadow:0 0 8px #f4bfd2;animation:accept-heartbeat 1.7s ease-in-out infinite}
+@keyframes invitation-heartbeat{0%,100%{transform:scale(1);box-shadow:0 3px 16px #c37f9822}50%{transform:scale(1.025);box-shadow:0 5px 23px #c37f9845}}
+@keyframes accept-heartbeat{0%,100%{transform:scale(1)}25%{transform:scale(1.18)}42%{transform:scale(1)}60%{transform:scale(1.12)}}
+.epilogue-choice{transition:opacity .9s ease}
+@media(prefers-reduced-motion:reduce){.portrait-incoming,.dialogue-text,.shy-decoration span,.accept-choice,.accept-choice span{transition:none;animation:none!important}.dialogue-text.dialogue-switching{opacity:1;transform:none}}
+.game[data-scene="food"] .shy-decoration{opacity:.72}
+.game[data-scene="food"] .shy-decoration span{color:#fff0d9;text-shadow:0 0 12px #ffe2b2,0 0 25px #e7a9b4}
+
+/* A gentle doorbell moment makes the invitation itself the opening action. */
+.letter-arrival{min-height:min(470px,calc(100dvh - 52px));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(28px,6vw,58px);text-align:center;background:radial-gradient(ellipse at 50% 10%,#fffef8,#fff8f2 72%);animation:arrival-unfold .7s ease-out both}
+.arrival-sound{margin:0 0 16px;color:#a86d81;font-size:13px;letter-spacing:2px;animation:arrival-sound 2.8s ease-in-out infinite}
+.arrival-sound span{display:inline-block;margin-left:4px;color:#cb829e;font-size:17px;animation:arrival-note 1.8s ease-in-out infinite}
+.letter-arrival h2{margin:0;color:#4e3941;font-size:clamp(20px,3.5vw,26px);letter-spacing:-.5px}
+.arrival-prompt{margin:10px 0 23px;color:#997c86;font-size:14px}
+.arrival-letter{position:relative;width:min(430px,100%);min-height:132px;display:flex;align-items:center;gap:17px;padding:23px 24px;border:1px solid #e3c6ce;border-radius:8px;background:linear-gradient(145deg,#fffdf8,#f9edf0);color:#694858;text-align:left;box-shadow:0 12px 30px #9864771b,0 0 0 5px #fff9f3;animation:arrival-letter-ring 4.2s 1s ease-in-out infinite;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.arrival-letter:hover{transform:translateY(-4px) scale(1.015);border-color:#c790a4;box-shadow:0 18px 36px #98647730,0 0 0 6px #fff9f3}
+.arrival-letter:focus-visible{outline:3px solid #a85d79;outline-offset:5px}
+.arrival-seal{width:48px;height:48px;flex:none;display:grid;place-items:center;border:1px solid #d6a8b8;border-radius:50%;background:#fae8ee;color:#a25370;font-size:25px;box-shadow:0 3px 12px #a9667d1c}
+.arrival-letter-copy{display:grid;gap:7px}
+.arrival-letter-copy strong{font-family:Georgia,"Batang",serif;font-size:18px;font-weight:600;letter-spacing:.2px}
+.arrival-letter-copy small{color:#9a7b86;font-size:13px}
+.arrival-open{margin-left:auto;align-self:flex-end;color:#a5687a;font-size:12px;white-space:nowrap}
+.arrival-open span{font-size:18px;vertical-align:-2px}
+.arrival-note{margin:20px 0 0;color:#ab929a;font-size:11px;letter-spacing:.3px}
+@keyframes arrival-unfold{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes arrival-sound{0%,70%,100%{transform:translateX(0)}74%{transform:translateX(-2px) rotate(-2deg)}80%{transform:translateX(2px) rotate(2deg)}86%{transform:translateX(-1px)}}
+@keyframes arrival-note{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(9deg)}}
+@keyframes arrival-letter-ring{0%,80%,100%{transform:translateX(0) rotate(0);box-shadow:0 12px 30px #9864771b,0 0 0 5px #fff9f3}83%{transform:translateX(-2px) rotate(-.6deg)}86%{transform:translateX(2px) rotate(.6deg)}89%{transform:translateX(-1px)}92%{transform:translateX(0);box-shadow:0 14px 34px #bd789344,0 0 0 6px #fff9f3}}
+@media(max-width:760px){.letter-arrival{min-height:min(440px,calc(100dvh - 40px));padding:28px 20px}.arrival-prompt{font-size:15px}.arrival-letter{min-height:116px;gap:12px;padding:18px 16px}.arrival-seal{width:42px;height:42px;font-size:22px}.arrival-letter-copy strong{font-size:17px}.arrival-letter-copy small{font-size:12px}.arrival-open{font-size:11px}.arrival-note{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.letter-arrival,.arrival-sound,.arrival-sound span,.arrival-letter{animation:none!important;transition:none}}
+
+/* Let the last memory rise slowly, then let the credits travel like a film roll. */
+.game.epilogue-fading>:not(.epilogue-screen){transition:opacity 2.4s ease!important}
+.epilogue-screen{transition:opacity 2.6s ease}
+.epilogue-line{font-size:clamp(25px,4.2vw,41px);line-height:1.9;letter-spacing:.035em;transform:translateY(28px);transition:opacity 4.8s ease,transform 4.8s cubic-bezier(.18,.65,.26,1)}
+.epilogue-choice{margin-top:56px}
+.epilogue-choice h2{font-size:17px;letter-spacing:2px}
+.epilogue-restart,.epilogue-credits-button{min-height:48px;padding:12px 22px;font-size:14px}
+.epilogue-credits{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:34px}
+.epilogue-credits.is-visible{animation:film-credit-rise 18s cubic-bezier(.2,.55,.25,1) both}
+.epilogue-credits .epilogue-credit-heading{margin-bottom:24px;font-size:12px;letter-spacing:4px}
+.epilogue-credits p:not(.epilogue-credit-heading){font-size:16px;letter-spacing:1.2px;margin-bottom:17px}
+.epilogue-credits strong{font-size:18px}
+.epilogue-credits .epilogue-restart{margin-top:30px}
+@keyframes film-credit-rise{0%{opacity:0;transform:translateY(42vh)}12%{opacity:1}78%{opacity:1;transform:translateY(-2vh)}100%{opacity:1;transform:translateY(-2vh)}}
+
+/* Make the answer inviting and easy to spot without overpowering the questions. */
+.choice{font-size:15px;min-height:58px}
+.back-choice{font-size:13px;padding:14px 19px}
+.dialogue-text{font-size:clamp(15px,1.6vw,18px)}
+.dialogue-bottom{font-size:10px}
+.accept-choice{min-height:48px;padding:12px 24px;font-size:16px;letter-spacing:.15px;box-shadow:0 4px 18px #c37f9827;animation:invitation-answer 1s ease both,invitation-heartbeat 2.7s 1s ease-in-out infinite}
+.accept-choice:hover{transform:translateY(-3px) scale(1.06);background:#f8e3eb;border-color:#b77991;box-shadow:0 9px 28px #b66f8d55;color:#704257}
+.accept-choice:hover span{transform:scale(1.3);color:#a84970}
+@media(max-width:760px){.arrival-letter{gap:9px}.arrival-open{display:none}.choice{font-size:14px;min-height:46px}.dialogue-text{font-size:15px}.accept-choice{min-height:46px;padding:11px 20px;font-size:15px}.epilogue-line{font-size:clamp(23px,6vw,32px)}.epilogue-choice{margin-top:40px}.epilogue-choice h2{font-size:16px}.epilogue-restart,.epilogue-credits-button{font-size:13px}.epilogue-credits p:not(.epilogue-credit-heading){font-size:14px}.epilogue-credits strong{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.arrival-letter:hover,.accept-choice:hover{transform:none}.epilogue-credits.is-visible{animation:none}}
+@keyframes invitation-answer{from{opacity:0}to{opacity:1}}
+@keyframes invitation-heartbeat{0%,100%{box-shadow:0 4px 18px #c37f9827}50%{box-shadow:0 6px 25px #b66f8d55}}
+@keyframes accept-heartbeat{0%,100%{text-shadow:0 0 8px #f4bfd2;color:#ba718f}50%{text-shadow:0 0 15px #ec9fbd;color:#a84970}}
+
+/* Keep every floral accent outside the dialogue and choice area. */
+.game-frame{position:relative;margin:-12px;padding:12px}
+.romance-frame{position:absolute;inset:0;z-index:1;pointer-events:none;border:1px solid #fff1d8c9;box-shadow:inset 0 0 0 5px #fff7ec24}
+.frame-ornament{position:absolute;color:#ffe8d4;font-family:Georgia,serif;font-size:27px;line-height:1;text-shadow:0 1px 9px #573549aa,0 0 16px #f7d4b2;animation:rose-glimmer 3.2s ease-in-out infinite}
+.frame-ornament i{position:absolute;top:-5px;right:-8px;color:#fff7db;font-size:14px;font-style:normal;animation:frame-twinkle 2.2s ease-in-out infinite}
+.frame-top-left{top:-7px;left:-5px}.frame-top-right{top:-7px;right:-5px;transform:scaleX(-1)}.frame-bottom-left{bottom:-7px;left:-5px;transform:scaleY(-1)}.frame-bottom-right{bottom:-7px;right:-5px;transform:scale(-1)}
+.frame-vine{position:absolute;top:30%;bottom:30%;display:flex;align-items:center;writing-mode:vertical-rl;color:#ffe6d4;font-size:18px;letter-spacing:8px;text-shadow:0 1px 8px #53374d;opacity:.75}
+.frame-vine-left{left:-10px}.frame-vine-right{right:-10px;transform:rotate(180deg)}
+.frame-sparkle{position:absolute;color:#fff6dc;font-size:19px;text-shadow:0 0 12px #ffe6ae;animation:frame-twinkle 2.8s ease-in-out infinite}
+.sparkle-one{top:-8px;left:50%}.sparkle-two{top:50%;right:-8px;animation-delay:-.8s}.sparkle-three{bottom:-8px;left:50%;animation-delay:-1.6s}
+@keyframes frame-twinkle{0%,100%{opacity:.46;scale:.82;rotate:-8deg}50%{opacity:1;scale:1.18;rotate:8deg}}
+@keyframes rose-glimmer{0%,100%{filter:brightness(.94)}50%{filter:brightness(1.17)}}
+@media(max-width:760px){.game-frame{margin:-8px;padding:8px}.romance-frame{border-width:1px;box-shadow:inset 0 0 0 4px #ffffff20}.frame-ornament{font-size:21px}.frame-top-left{top:-7px;left:-5px}.frame-top-right{top:-7px;right:-5px}.frame-bottom-left{bottom:-7px;left:-5px}.frame-bottom-right{bottom:-7px;right:-5px}.frame-vine{font-size:14px;letter-spacing:4px}.frame-vine-left{left:-8px}.frame-vine-right{right:-8px}.frame-sparkle{font-size:15px}.sparkle-one{top:-7px}.sparkle-two{right:-7px}.sparkle-three{bottom:-7px}}
+@media(prefers-reduced-motion:reduce){.frame-ornament,.frame-ornament i,.frame-sparkle{animation:none}}
+
+/* The illustrated love letter is the clickable, gently wavering game entrance. */
+.arrival-letter{width:min(390px,100%);min-height:0;gap:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;animation:none;transition:transform .3s ease}
+.arrival-letter:hover{transform:translateY(-4px) scale(1.045);border:0;box-shadow:none}
+.arrival-envelope-image{display:block;width:100%;height:auto;max-height:230px;object-fit:contain;filter:drop-shadow(0 13px 20px #8c597344);animation:envelope-waver 3.8s ease-in-out infinite;transition:filter .3s ease}
+.arrival-letter:hover .arrival-envelope-image{filter:drop-shadow(0 18px 27px #a9587c66)}
+.arrival-open{align-self:center;margin:-5px 0 0;padding:8px 17px;border:1px solid #ddbdc8;border-radius:22px;background:#fffaf6;color:#895b6d;font-size:13px;box-shadow:0 4px 14px #92617418}
+.arrival-open span{font-size:16px}
+@keyframes envelope-waver{0%,100%{transform:rotate(0) translateY(0)}18%{transform:rotate(-2deg) translateY(-3px)}34%{transform:rotate(2deg) translateY(-2px)}50%{transform:rotate(-1deg) translateY(0)}68%{transform:rotate(0) translateY(2px)}}
+@media(max-width:760px){.arrival-letter{width:min(340px,100%)}.arrival-envelope-image{max-height:195px}.arrival-open{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.arrival-envelope-image{animation:none}.arrival-letter:hover{transform:none}}
+
+/* Sweet and shining epilogue with a shorter, more legible credit roll. */
+.epilogue-screen{overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#fff5dc 0,#f9e5e8 47%,#eabed0 100%);color:#69465a}
+.epilogue-screen::before{content:"";position:absolute;inset:13px;border:1px solid #b77e9344;box-shadow:inset 0 0 0 5px #fff8ed75;pointer-events:none}
+.epilogue-screen::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;background:radial-gradient(circle at 12% 18%,#fff 0 1px,transparent 2px),radial-gradient(circle at 84% 22%,#fff 0 1px,transparent 2px),radial-gradient(circle at 20% 77%,#fff 0 1.5px,transparent 2.5px),radial-gradient(circle at 91% 74%,#fff 0 1.5px,transparent 2.5px),radial-gradient(circle at 73% 57%,#fff7d6 0 1px,transparent 2px);animation:ending-shine 2.8s ease-in-out infinite alternate}
+.epilogue-content{position:relative;z-index:1}
+.epilogue-eyebrow{color:#a56c83}
+.epilogue-line{font-size:clamp(26px,4vw,42px);line-height:1.8;color:#81566c;letter-spacing:.02em;transform:translateY(24px);transition:opacity 1.8s ease,transform 2.2s cubic-bezier(.2,.65,.25,1)}
+.epilogue-line span{display:block;margin-bottom:13px;color:#9b7788;font-family:var(--sans);font-size:clamp(15px,2vw,19px);letter-spacing:.08em}
+.epilogue-line strong{display:block;color:#a14970;font-family:Georgia,"Batang","AppleMyungjo",serif;font-size:clamp(28px,4.6vw,48px);font-weight:600;line-height:1.55;text-shadow:0 2px 18px #fff5d6;opacity:0;transform:translateY(12px);transition:opacity 1.5s .45s ease,transform 1.8s .45s ease}
+.epilogue-line.is-visible strong{opacity:1;transform:translateY(0)}
+.epilogue-choice h2{color:#805469}
+.epilogue-restart,.epilogue-credits-button{min-height:50px;padding:13px 24px;border-color:#c99cac;background:#fffaf5;color:#805269;font-size:15px;box-shadow:0 5px 16px #a45f7a22}
+.epilogue-credits-button{background:#f7e7ec;color:#89546d}
+.epilogue-restart:hover,.epilogue-credits-button:hover{background:#fff0d8;color:#8d4264;box-shadow:0 8px 22px #a45f7a40}
+.epilogue-credits.is-visible{animation:film-credit-rise 8s cubic-bezier(.25,.55,.25,1) both}
+@keyframes film-credit-rise{0%{opacity:0;transform:translateY(35vh)}15%{opacity:1}82%{opacity:1;transform:translateY(-2vh)}100%{opacity:1;transform:translateY(-2vh)}}
+@keyframes ending-shine{from{opacity:.32}to{opacity:.78}}
+.game.epilogue-fading>:not(.epilogue-screen){transition:opacity 1s ease!important}
+.epilogue-screen{transition:opacity 1.35s ease}
+.epilogue-line{transition:opacity 1.7s ease,transform 2s cubic-bezier(.2,.65,.25,1)}
+@media(max-width:760px){.epilogue-line span{font-size:15px}.epilogue-line strong{font-size:clamp(27px,7vw,38px)}.epilogue-restart,.epilogue-credits-button{min-height:47px;padding:11px 20px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.epilogue-screen::after{animation:none}.epilogue-credits.is-visible{animation:none}}
+
+/* Make the happy-ending invitation the clear, warm payoff. */
+.accept-choice{min-height:56px;padding:14px 30px;border:1px solid #a55072;border-radius:30px;background:linear-gradient(135deg,#a95576,#c77998);color:#fffaf5;font-size:18px;font-weight:700;letter-spacing:.25px;box-shadow:0 7px 24px #a44e7145,0 0 0 5px #fff9f3;animation:invitation-answer 1s ease both,invitation-heartbeat 2.2s 1s ease-in-out infinite}
+.accept-choice span{color:#ffe8ef;font-size:19px;text-shadow:0 0 12px #ffe3ed}
+.accept-choice:hover{transform:translateY(-4px) scale(1.075);background:linear-gradient(135deg,#8d3f60,#b66586);border-color:#843950;box-shadow:0 12px 32px #9a3f665f,0 0 0 7px #fff6f1;color:#fff}
+.accept-choice:hover span{color:#fff4d2}
+@keyframes invitation-heartbeat{0%,100%{box-shadow:0 7px 24px #a44e7145,0 0 0 5px #fff9f3}50%{box-shadow:0 9px 29px #a44e7160,0 0 0 7px #fff9f3}}
+@media(max-width:760px){.accept-choice{min-height:52px;padding:13px 24px;font-size:16px}.arrival-letter:hover{transform:translateY(-2px) scale(1.02)}}
+@media(prefers-reduced-motion:reduce){.accept-choice{animation:none}.accept-choice:hover{transform:none}}
+.happy-ending .romance-frame{border-color:#f7d8ad;box-shadow:inset 0 0 0 5px #fff4db55}
+.happy-ending .frame-ornament,.happy-ending .frame-sparkle{color:#fff1c8;text-shadow:0 0 12px #ffe7a8,0 0 24px #f3a9c8}
+
+/* The opening state is only the envelope; the whole image is the hit target. */
+.letter-dialog.arrival-only{background:transparent;border-color:transparent;box-shadow:none;overflow:visible}
+.letter-arrival{width:100%;min-height:min(48vh,420px);display:grid;place-items:center;padding:0;background:transparent;animation:arrival-unfold .55s ease-out both}
+.arrival-letter{width:min(390px,82vw);min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.arrival-letter:hover{border:0;box-shadow:none}
+.arrival-envelope-image{width:100%;max-height:290px;object-fit:contain;filter:drop-shadow(0 14px 22px #8c597344)}
+.arrival-letter:hover .arrival-envelope-image{filter:drop-shadow(0 19px 30px #a9587c66)}
+@media(max-width:760px){.letter-arrival{min-height:min(44vh,360px)}.arrival-letter{width:min(330px,82vw)}.arrival-envelope-image{max-height:245px}}

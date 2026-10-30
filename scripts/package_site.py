@@ -6,7 +6,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FILES = ('index.html', 'styles.css', 'app.js', 'invitation-letter.js', 'assets/favicon.svg',
          'assets/images/byeonggyu-photo-welcome.png', 'assets/images/byeonggyu-photo-shy.png',
          'assets/images/byeonggyu-photo-schedule.png', 'assets/images/byeonggyu-photo-bad.png',
-         'assets/images/byeonggyu-photo-happy.png', 'assets/images/byeonggyu-photo-food.png')
+         'assets/images/byeonggyu-photo-happy.png', 'assets/images/byeonggyu-photo-food.png',
+         'assets/images/byeonggyu-love-letter.png')
 destination = ROOT / 'dist'
 for name in FILES:
     source, target = ROOT / name, destination / name
