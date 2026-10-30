@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5e8e8">
+  <meta name="description" content="병규의 집들이에 초대합니다. 10월 31일 저녁 7시부터 11월 2일 아침 8시까지, 우리 집에서 만나요.">
+  <title>병규의 집들이 — 우리 집에 놀러 올래?</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="invitation-letter.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="병규의 집들이 처음으로">
+      <span class="mark" aria-hidden="true">♡</span> 병규의 집들이
+    </a>
+    <button class="letter-reopen" id="letter-reopen" type="button"><span aria-hidden="true">✉</span> 초대장 편지</button>
+  </header>
+
+  <dialog class="letter-dialog" id="letter-dialog" aria-labelledby="letter-title">
+    <div class="letter-paper">
+      <p class="letter-eyebrow">A LETTER FOR YOU</p>
+      <span class="letter-seal" aria-hidden="true">♡</span>
+      <h2 id="letter-title">병규가 보낸 편지</h2>
+      <div class="letter-reading" id="letter-reading" tabindex="0" role="region" aria-label="초대장 편지 본문" autofocus>
+        <div class="letter-content" id="letter-content"></div>
+        <p class="letter-signature">마음을 담아, 병규가</p>
+      </div>
+      <div class="letter-scroll-controls" id="letter-scroll-controls">
+        <span class="letter-scroll-hint" id="letter-scroll-hint" role="status">천천히 아래로 읽어주세요</span>
+        <button class="letter-scroll-toggle" id="letter-scroll-toggle" type="button" aria-pressed="false" aria-controls="letter-reading">자동 스크롤</button>
+      </div>
+      <div class="letter-action"><button class="letter-enter" id="letter-enter" type="button">편지를 읽었어, 들어갈게 <span aria-hidden="true">→</span></button></div>
+      <button class="decline-choice letter-decline" type="button" data-decline>나는 그냥 집들이 안 갈래</button>
+    </div>
+  </dialog>
+
+  <main>
+    <div class="intro">
+      <p class="eyebrow">A LITTLE HOUSEWARMING STORY</p>
+      <h1>우리 집에 <em>놀러 올래?</em></h1>
+      <p class="intro-copy">집은 준비됐고, 이제 네가 올 차례.</p>
+    </div>
+
+    <section class="game" aria-label="병규와 집들이 이야기 나누기" data-scene="welcome">
+      <div class="scene-backdrop" aria-hidden="true"></div>
+      <img class="portrait" src="assets/images/byeonggyu-photo-welcome.png"
+        alt="아늑한 거실에서 핑크색 파자마를 입고 웃고 있는 병규" fetchpriority="high">
+      <div class="scene-shade" aria-hidden="true"></div>
+
+      <div class="scene-topline">
+        <span class="chapter"><span class="chapter-dot"></span> 첫 번째 장면 <span class="chapter-divider">/</span> 병규의 집</span>
+        <span class="scene-mood" id="mood">두근두근, 집들이 전날</span>
+      </div>
+
+      <div class="scene-caption" aria-hidden="true">
+        <span class="caption-rule"></span>
+        <span>어서 와.<br>기다렸어.</span>
+      </div>
+
+      <div class="shy-decoration" aria-hidden="true"><span>♡</span><span>♡</span><span>✧</span></div>
+
+      <div class="choices" id="choices" aria-label="병규에게 물어보기">
+        <p class="choice-prompt"><span aria-hidden="true">✦</span> 뭐부터 물어볼까?</p>
+        <button class="choice" data-choice="address"><span class="choice-number" aria-hidden="true">01</span><span>어디로 가면 돼?</span><span class="choice-arrow" aria-hidden="true">↗</span></button>
+        <button class="choice" data-choice="schedule"><span class="choice-number" aria-hidden="true">02</span><span>언제 하는 거야?</span><span class="choice-arrow" aria-hidden="true">↗</span></button>
+        <button class="choice" data-choice="food"><span class="choice-number" aria-hidden="true">03</span><span>음식은 뭐 먹을거야?</span><span class="choice-arrow" aria-hidden="true">↗</span></button>
+      </div>
+
+      <div class="reply-actions" id="reply-actions" hidden>
+        <button class="back-choice" id="back-choice"><span aria-hidden="true">↶</span> 다른 것도 물어볼래</button>
+      </div>
+
+      <div class="ending-title" id="ending-title" hidden>
+        <p id="ending-label">BAD ENDING</p>
+        <h2 id="ending-heading">오지 않는 너를 기다리며</h2>
+        <span id="ending-note">핑크빛 집들이는 그렇게 빛을 잃었다.</span>
+      </div>
+      <div class="ending-actions" id="ending-actions" hidden><button class="restart-choice" id="restart-choice" type="button">↶ 처음부터 다시 시작</button></div>
+
+      <div class="dialogue-wrap">
+        <div class="speaker"><span class="speaker-heart" aria-hidden="true">♥</span> 병규 <span class="speaker-role">오늘의 집주인</span></div>
+        <div class="dialogue">
+          <div class="dialogue-body">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <p class="dialogue-text" id="dialogue-text" aria-hidden="true">와줬구나…! 우리 집에 놀러 올래?<br>너 온다고 해서, 조금 신경 써봤어.</p>
+            <p class="sr-only" id="announcement" role="status" aria-live="polite" aria-atomic="true">병규: 와줬구나…! 우리 집에 놀러 올래? 너 온다고 해서, 조금 신경 써봤어.</p>
+          </div>
+          <div class="dialogue-bottom"><span id="dialogue-hint">선택지를 눌러 이야기를 이어가세요</span><button class="skip" id="skip" hidden>대사 바로 보기 <span aria-hidden="true">››</span></button><span class="continue-mark" id="continue-mark" aria-hidden="true">◆</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="page-decline" id="page-decline">
+      <button class="accept-choice" id="accept-choice" type="button">좋아, 집들이 갈게! <span aria-hidden="true">♡</span></button>
+      <button class="decline-choice" type="button" data-decline>나는 그냥 집들이 안 갈래</button>
+    </div>
+
+    <footer class="page-footer"><span>좋은 사람들과, 조금 긴 집들이.</span><span class="footer-signature">with love, 병규 <span aria-hidden="true">♡</span></span></footer>
+    <noscript><p class="noscript">선택지를 사용하려면 JavaScript를 켜주세요. 집들이는 2026년 10월 31일 19시부터 11월 2일 오전 8시까지, 0박 3일입니다. 장소는 병규에게 개인적으로 물어봐주세요.</p></noscript>
+  </main>
+</body>
+</html>

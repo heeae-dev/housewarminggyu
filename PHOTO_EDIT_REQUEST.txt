@@ -1,0 +1,9 @@
+Edit the attached photograph, keeping it a realistic photograph of the SAME adult man. This is a clothing and room edit, NOT a new portrait and NOT an illustration.
+
+Keep the source photograph's exact camera angle, full-body framing, subject position, body proportions, head size, head location, facial features, hairstyle, skin texture, expression, arm position, hands, and stance. Do not beautify, redraw, stylize, smooth, or change his face. Do not make him look like a different person. Preserve the original head and face as faithfully as possible. The original head pixels will be composited back afterward, so it is essential that his head location, neck location, shoulders, and body alignment do not move.
+
+Only change his gray hoodie and jeans into a natural, modest, loose-fitting pastel pink cotton pajama set: long-sleeved button-front pajama shirt with cream piping, small chest pocket, matching pink full-length pajama pants. Remove the lanyard and ID badge. Keep his original relaxed arm pose; do not add a wave. Keep his shoes or change only the shoes to simple indoor slippers if needed.
+
+Replace the classroom background with a believable cozy apartment living room: cream sofa near one side, a small table with housewarming snacks, a subtle warm lamp, cream curtains, pink accents. Photorealistic everyday indoor photography, soft light compatible with the original face, natural shadows and fabric texture. Keep him standing at exactly the same position and scale as in the source. Keep the room uncluttered. No other people.
+
+Keep the original portrait 9:16 composition, target 864 by 1536 pixels, head-to-toe with the entire head and feet inside the canvas. One finished image only. Opaque real room background, no transparency and no checkerboard. No anime, cartoon, illustration, painting, 3D render, artificial doll-like skin, text, dialogue, UI, logos, or watermark.
